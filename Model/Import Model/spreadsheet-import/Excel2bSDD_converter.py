@@ -39,9 +39,8 @@ def load_excel(EXCEL_PATH):
 
     excel={}
     excel['dictionary'] = pd.read_excel(excel_df, 'Dictionary', skiprows=6, usecols="C:Q", true_values="TRUE")
-    excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AB", true_values="TRUE")
-    # original: excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AC", true_values="TRUE")
-    # excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AB", true_values="TRUE")
+    excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AC", true_values="TRUE")
+    # Modified: excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AB", true_values="TRUE")
     excel['property'] = pd.read_excel(excel_df, 'Property', skiprows=6, usecols="C:AU", true_values="TRUE")
     excel['classproperty'] = pd.read_excel(excel_df, 'ClassProperty', usecols="C:T", skiprows=6, true_values="TRUE")
     excel['classrelation'] = pd.read_excel(excel_df, 'ClassRelation', usecols="C:H", skiprows=6, true_values="TRUE")
