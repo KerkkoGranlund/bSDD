@@ -22,6 +22,7 @@ from ast import literal_eval
 from copy import deepcopy
 import numpy as np
 import pandas as pd
+import datetime
 
 
 def load_excel(EXCEL_PATH):
@@ -31,13 +32,16 @@ def load_excel(EXCEL_PATH):
     :type EXCEL_PATH: str
     :return: Dictionary of Pandas dataframes with parsed Excel data
     :rtype: dict
+
     """
         
     excel_df = pd.ExcelFile(EXCEL_PATH)
 
     excel={}
     excel['dictionary'] = pd.read_excel(excel_df, 'Dictionary', skiprows=6, usecols="C:Q", true_values="TRUE")
-    excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AC", true_values="TRUE")
+    excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AB", true_values="TRUE")
+    # original: excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AC", true_values="TRUE")
+    # excel['class'] = pd.read_excel(excel_df, 'Class', skiprows=6, usecols="C:AB", true_values="TRUE")
     excel['property'] = pd.read_excel(excel_df, 'Property', skiprows=6, usecols="C:AU", true_values="TRUE")
     excel['classproperty'] = pd.read_excel(excel_df, 'ClassProperty', usecols="C:T", skiprows=6, true_values="TRUE")
     excel['classrelation'] = pd.read_excel(excel_df, 'ClassRelation', usecols="C:H", skiprows=6, true_values="TRUE")
@@ -166,10 +170,28 @@ def excel2bsdd(excel, bsdd_template):
 
 
 if __name__ == "__main__":
-    EXCEL_PATH = sys.argv[1]
-    JSON_TEMPLATE_PATH = sys.argv[2]
-    JSON_OUTPUT_PATH = sys.argv[3]
-    WITHOUT_NULLS = sys.argv[4]
+    #EXCEL_PATH = sys.argv[1]
+    #JSON_TEMPLATE_PATH = sys.argv[2]
+    #JSON_OUTPUT_PATH = sys.argv[3]
+    #WITHOUT_NULLS = sys.argv[4]
+
+    # EXCEL_PATH (path to your Excel file)
+    #  JSON_TEMPLATE_PATH (path where the template JSON file is located. You can find this file in the bSDD/Model/Import Model)
+    #  JSON_OUTPUT_PATH (path where you want to create the resultant JSON file, should end with ".JSON")
+    #  WITHOUT_NULLS (False - produce minimal JSON only with fields filled in Excel, True - export also fields that are empty
+
+    #today = datetime.date.today()
+    #date_str = today.strftime("%d%m%Y")
+    now = datetime.datetime.now()
+    date_str = now.strftime("%d%m%Y_%H%M")
+
+    EXCEL_PATH = "Model/Import Model/spreadsheet-import/Granlund_-_bSDD_-_TATE.xlsx"
+    #EXCEL_PATH = "Model\\Import Model\\spreadsheet-import\\Granlund_-_bSDD_-_TATE.xlsx"
+    
+    JSON_TEMPLATE_PATH = "Model/Import Model/bsdd-import-model.json"
+    JSON_OUTPUT_PATH = f"Model/Import Model/Granlund_-_bSDD_-_LVI-testaus_TATE_{date_str}.json"
+    #JSON_OUTPUT_PATH = "Granlund_-_bSDD_-_LVI-testaus_TATE_11122023.json"
+    WITHOUT_NULLS = "true"
 
     excel = load_excel(EXCEL_PATH)
     bsdd_template = json.load(open(JSON_TEMPLATE_PATH, encoding="utf-8"))
